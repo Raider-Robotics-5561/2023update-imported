@@ -99,8 +99,7 @@ private SendableChooser<Command> autoChooser;
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-  public RobotContainer()
-  {
+  public RobotContainer() {
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
 
@@ -134,7 +133,7 @@ private SendableChooser<Command> autoChooser;
       //~~~~~~~~~~~~~~~~~~Drive Control~~~~~~~~~~~~~~~~~~~~~~~~
       DriveController.a().onTrue((Commands.runOnce(drivebase::zeroGyroWithAlliance)));
       
-      // DriveController.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
+       DriveController.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
 
       //Go to pos ?
        //NOTE - Pos not right
