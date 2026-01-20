@@ -56,7 +56,7 @@ public class VisionSubsystem extends SubsystemBase
    * April Tag Field Layout of the year.
    */
   public static final AprilTagFieldLayout fieldLayout                     = AprilTagFieldLayout.loadField(
-      AprilTagFields.kDefaultField);
+      AprilTagFields.k2025ReefscapeWelded);
   /**
    * Ambiguity defined as a value between (0,1). Used in {@link VisionSubsystem#filterPose}.
    */
@@ -362,19 +362,19 @@ public class VisionSubsystem extends SubsystemBase
    */
   public enum Cameras
   {
-    RoboCamRear("RoboCamRear",
+    RoboCamRear("RoboCamRight",
     //35, 30
-               new Rotation3d(0, Units.degreesToRadians(30), 35),
-               new Translation3d(Units.inchesToMeters(9.724),
-                                 Units.inchesToMeters(-11.74),
-                                 Units.inchesToMeters(7.839)),
+               new Rotation3d(0, Units.degreesToRadians(45), 35),
+               new Translation3d(Units.inchesToMeters(9.5519),
+                                 Units.inchesToMeters(11.811),
+                                 Units.inchesToMeters(9.22)),
                VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1)),
 
-      RoboCamFront("RoboCamFront",
-               new Rotation3d(0, Units.degreesToRadians(-30), 35),
-               new Translation3d(Units.inchesToMeters( 9.724),
-                                 Units.inchesToMeters(11.742),
-                                 Units.inchesToMeters(7.339)),
+      RoboCamFront("RoboCamLeft",
+               new Rotation3d(0, Units.degreesToRadians(-45), 35),
+               new Translation3d(Units.inchesToMeters( -9.551),
+                                 Units.inchesToMeters(11.811),
+                                 Units.inchesToMeters(9.22)),
                VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1));
 
     /**

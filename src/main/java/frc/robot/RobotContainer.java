@@ -4,6 +4,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 // import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
@@ -131,7 +132,14 @@ private SendableChooser<Command> autoChooser;
     }
 
       //~~~~~~~~~~~~~~~~~~Drive Control~~~~~~~~~~~~~~~~~~~~~~~~
-      DriveController.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+      DriveController.a().onTrue((Commands.runOnce(drivebase::zeroGyroWithAlliance)));
+      
+      // DriveController.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
+
+      //Go to pos ?
+       //NOTE - Pos not right
+      // DriveController.b().whileTrue(
+      //   drivebase.driveToPose(new Pose2d(new Translation2d(14.4, 4.0), Rotation2d.fromDegrees(180))));
 
 
       //This is our boost control Right Trigger
