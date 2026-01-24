@@ -53,7 +53,7 @@ public class VisionSubsystem extends SubsystemBase
 
         /// Camera Enum to select each camera
         enum Cameras {
-            RoboCamRear("RoboCamRight",
+            RoboCamRight("RoboCamRight",
                     //35, 30
                     new Rotation3d(0, Units.degreesToRadians(45), 35),
                     new Translation3d(Units.inchesToMeters(9.5519),
@@ -61,7 +61,7 @@ public class VisionSubsystem extends SubsystemBase
                             Units.inchesToMeters(9.22)),
                     VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1)),
 
-            RoboCamFront("RoboCamLeft",
+            RoboCamLeft("RoboCamLeft",
                     new Rotation3d(0, Units.degreesToRadians(-45), 35),
                     new Translation3d(Units.inchesToMeters( -9.551),
                             Units.inchesToMeters(11.811),
@@ -390,6 +390,8 @@ public class VisionSubsystem extends SubsystemBase
                  */
                 visionSim.update(swerveDrive.getSimulationDriveTrainPose().get());
             }
+
+            
             for (Cameras camera : Cameras.values())
             {
                 Optional<EstimatedRobotPose> poseEst = getEstimatedGlobalPose(camera);

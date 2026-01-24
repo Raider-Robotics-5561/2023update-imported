@@ -79,13 +79,13 @@ public class SwerveSubsystem extends SubsystemBase
     boolean blueAlliance = false;
     Pose2d startingPose;
      if (blueAlliance) {
-      startingPose = new Pose2d(new Translation2d(Meter.of(14),
-                                                   Meter.of(4)),
-                                                   Rotation2d.fromDegrees(0));
-    } else {
       startingPose = new Pose2d(new Translation2d(Meter.of(4),
-                                                  Meter.of(8)),
+                                                   Meter.of(8)),
                                                    Rotation2d.fromDegrees(180));
+    } else {
+      startingPose = new Pose2d(new Translation2d(Meter.of(14.3),
+                                                  Meter.of(4.05)),
+                                                   Rotation2d.fromDegrees(0));
 
 
     }
@@ -154,6 +154,7 @@ public class SwerveSubsystem extends SubsystemBase
     {
       swerveDrive.updateOdometry();
       vision.updatePoseEstimation(swerveDrive);
+      
     }
 
   //   if (!isMoving(0.01) && !DriverStation.isAutonomous()) {
