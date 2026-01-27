@@ -347,7 +347,7 @@ public class VisionSubsystem extends SubsystemBase
                     c.addToVisionSim(visionSim);
                 }
 
-                openSimCameraViews();
+                // openSimCameraViews();
             }
         }
 
@@ -379,17 +379,19 @@ public class VisionSubsystem extends SubsystemBase
          */
         public void updatePoseEstimation(SwerveDrive swerveDrive)
         {
-            if (SwerveDriveTelemetry.isSimulation && swerveDrive.getSimulationDriveTrainPose().isPresent())
-            {
-                /*
-                 * In the maple-sim, odometry is simulated using encoder values, accounting for factors like skidding and drifting.
-                 * As a result, the odometry may not always be 100% accurate.
-                 * However, the vision system should be able to provide a reasonably accurate pose estimation, even when odometry is incorrect.
-                 * (This is why teams implement vision system to correct odometry.)
-                 * Therefore, we must ensure that the actual robot pose is provided in the simulator when updating the vision simulation during the simulation.
-                 */
-                visionSim.update(swerveDrive.getSimulationDriveTrainPose().get());
-            }
+
+            //NOTE - COME BACK AND DOUBLE CHECK HERE
+            // if (SwerveDriveTelemetry.isSimulation && swerveDrive.getSimulationDriveTrainPose().isPresent())
+            // {
+            //     /*
+            //      * In the maple-sim, odometry is simulated using encoder values, accounting for factors like skidding and drifting.
+            //      * As a result, the odometry may not always be 100% accurate.
+            //      * However, the vision system should be able to provide a reasonably accurate pose estimation, even when odometry is incorrect.
+            //      * (This is why teams implement vision system to correct odometry.)
+            //      * Therefore, we must ensure that the actual robot pose is provided in the simulator when updating the vision simulation during the simulation.
+            //      */
+            //     visionSim.update(swerveDrive.getSimulationDriveTrainPose().get());
+            // }
 
             
             for (Cameras camera : Cameras.values())
@@ -417,9 +419,11 @@ public class VisionSubsystem extends SubsystemBase
          */
         public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Cameras camera)
         {
+
+            //NOTE - This was all for robot sim but removed it from sim because this may be our issue with odom not updating
             Optional<EstimatedRobotPose> poseEst = camera.getEstimatedGlobalPose();
-            if (Robot.isSimulation())
-            {
+            // if (Robot.isSimulation())
+            // {
                 Field2d debugField = visionSim.getDebugField();
                 // Uncomment to enable outputting of vision targets in sim.
                 poseEst.ifPresentOrElse(
@@ -430,7 +434,7 @@ public class VisionSubsystem extends SubsystemBase
                         () -> {
                             debugField.getObject("VisionEstimation").setPoses();
                         });
-            }
+            // }
             return poseEst;
         }
 
@@ -523,10 +527,10 @@ public class VisionSubsystem extends SubsystemBase
         /**
          * Open up the photon vision camera streams on the localhost, assumes running photon vision on localhost.
          */
-        private void openSimCameraViews()
-        {
-            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE))
-            {
+        // private void openSimCameraViews()
+        // {
+        //     if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE))
+        //     {
 //      try
 //      {
 //        Desktop.getDesktop().browse(new URI("http://localhost:1182/"));
@@ -536,8 +540,8 @@ public class VisionSubsystem extends SubsystemBase
 //      {
 //        e.printStackTrace();
 //      }
-            }
-        }
+        //     }
+        // }
 
         /**
          * Update the {@link Field2d} to include tracked targets/
