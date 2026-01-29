@@ -40,7 +40,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import swervelib.SwerveDrive;
 import swervelib.telemetry.SwerveDriveTelemetry;
-import frc.robot.subsystems.Swerve.SwerveSubsystem;
+// import frc.robot.subsystems.Swerve.SwerveSubsystem;
 
 
 /**
@@ -55,22 +55,19 @@ public class VisionSubsystem extends SubsystemBase
     /// Camera Enum to select each camera
     public enum Cameras {
         RoboCamRight("RoboCamRight",
-        //NOTE - THIS IS MOST LIKELY THE ISSUE
-            //NOTE - Our single tag vecbuilder may be too extreme (lower numbers if so) (VecBuilder.fill(1.2, 1.2, Units.degreesToRadians(25))) Use this if so
-                //35, 30
-                new Rotation3d(0, Units.degreesToRadians(45), Units.degreesToRadians(35)),
-                new Translation3d(Units.inchesToMeters(9.5519),
-                        Units.inchesToMeters(11.811),
-                        Units.inchesToMeters(9.22)),
-               VecBuilder.fill(1.2, 1.2, Units.degreesToRadians(25)), VecBuilder.fill(0.5, 0.5, 1)),
+                new Rotation3d(0, Units.degreesToRadians(-35), Units.degreesToRadians(45)),
+                new Translation3d(Units.inchesToMeters(11.811),
+                                 -Units.inchesToMeters(9.5519),
+                                  Units.inchesToMeters(9.22)),
+                VecBuilder.fill(1.2, 1.2, Units.degreesToRadians(25)), VecBuilder.fill(0.35, 0.35, Units.degreesToRadians(10))),
 
         RoboCamLeft("RoboCamLeft",
-                new Rotation3d(0, Units.degreesToRadians(-45), Units.degreesToRadians(35)),
-                new Translation3d(Units.inchesToMeters( -9.551),
-                        Units.inchesToMeters(11.811),
-                        Units.inchesToMeters(9.22)),
-              VecBuilder.fill(1.2, 1.2, Units.degreesToRadians(25)), VecBuilder.fill(0.5, 0.5, 1));
+                new Rotation3d(0, Units.degreesToRadians(-35), Units.degreesToRadians(-45)),
+                new Translation3d(Units.inchesToMeters(11.811),
+                                  Units.inchesToMeters(9.5519),
+                                  Units.inchesToMeters(9.22)),
 
+                VecBuilder.fill(1.2, 1.2, Units.degreesToRadians(25)), VecBuilder.fill(0.35, 0.35, Units.degreesToRadians(10)));
         /// Latency alert to use when high latency is detected.
         public final  Alert                        latencyAlert;
         /// Camera instance for comms.
@@ -395,27 +392,27 @@ public class VisionSubsystem extends SubsystemBase
         }
         for (Cameras camera : Cameras.values())
         {
-           Optional<EstimatedRobotPose> poseEst = getEstimatedGlobalPose(camera);
-           camera.poseEstimator.addHeadingData(Timer.getFPGATimestamp(), swerveDrive.getPose().getRotation());
-                if (poseEst.isPresent()) {
-                     var pose = poseEst.get();
-                     
-                     //SECTION - Start TEST 1
-                     System.out.println(camera.name() + " vision pose: " + pose.estimatedPose.toPose2d()
-                      + " t=" + pose.timestampSeconds);
-                    
+            camera.poseEstimator.addHeadingData(Timer.getFPGATimestamp(), swerveDrive.getPose().getRotation());
+            Optional<EstimatedRobotPose> poseEst = getEstimatedGlobalPose(camera);
+            if (poseEst.isPresent()) {
+                var pose = poseEst.get();
 
-                    //SECTION - Start TEST 2
-                     swerveDrive.addVisionMeasurement(pose.estimatedPose.toPose2d(),
-                          pose.timestampSeconds,
-                          camera.curStdDevs);
-                          System.out.println("Vision fused at t=" + pose.timestampSeconds + " pose=" + pose.estimatedPose.toPose2d());
-                    
-                } else {
+                //SECTION - Start TEST 1
+                System.out.println(camera.name() + " vision pose: " + pose.estimatedPose.toPose2d()
+                        + " t=" + pose.timestampSeconds);
 
-                   //SECTION - Start TEST 3
-                    System.out.println(camera.name() + " NO vision estimate");
-                    
+
+                //SECTION - Start TEST 2
+                swerveDrive.addVisionMeasurement(pose.estimatedPose.toPose2d(),
+                        pose.timestampSeconds,
+                        camera.curStdDevs);
+                System.out.println("Vision fused at t=" + pose.timestampSeconds + " pose=" + pose.estimatedPose.toPose2d());
+
+            } else {
+
+                //SECTION - Start TEST 3
+                System.out.println(camera.name() + " NO vision estimate");
+
             }
         }
 
@@ -586,11 +583,11 @@ public class VisionSubsystem extends SubsystemBase
         field2d.getObject("tracked targets").setPoses(poses);
     }
 
-
-    // public void ResetVisionHeading(){
-    //     for(Cameras cam : Cameras.values()){
-    //         cam.poseEstimator.resetHeadingData(Timer.getFPGATimestamp(), SwerveSubsystem.getPose().getRotation());
-    //     }
-
-    // }
+    //TODO - This is a WiP "zero" command which NEEDS to be used when zeroing the gyro.
+//     public void ResetVisionHeading(){
+//         for(Cameras cam : Cameras.values()){
+//             cam.poseEstimator.resetHeadingData(Timer.getFPGATimestamp(), SwerveSubsystem);
+//         }
+//
+//     }
 }
