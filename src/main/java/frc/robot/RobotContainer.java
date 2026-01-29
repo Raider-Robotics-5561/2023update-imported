@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.math.estimator.PoseEstimator;
+
 // import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -21,7 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.miscConstants;
 import frc.robot.subsystems.Swerve.SwerveSubsystem;
-// import frc.robot.subsystems.Vision.Vision;
+import frc.robot.subsystems.Swerve.VisionSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -131,7 +133,7 @@ private SendableChooser<Command> autoChooser;
     }
 
       //~~~~~~~~~~~~~~~~~~Drive Control~~~~~~~~~~~~~~~~~~~~~~~~
-      DriveController.a().onTrue((Commands.runOnce(drivebase::zeroGyroWithAlliance)));
+      DriveController.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
       
        DriveController.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
 
