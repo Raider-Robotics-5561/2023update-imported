@@ -73,13 +73,7 @@ public class Robot extends TimedRobot
   @Override
   public void robotPeriodic()
   {
-  
-
-
-
-
-
-
+    RobotContainer.updateAllianceFrame();
     CommandScheduler.getInstance().run();
 }
   

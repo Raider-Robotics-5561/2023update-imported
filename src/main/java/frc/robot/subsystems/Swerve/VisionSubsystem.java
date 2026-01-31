@@ -6,6 +6,7 @@ import static edu.wpi.first.units.Units.Seconds;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -22,6 +23,8 @@ import edu.wpi.first.networktables.NetworkTablesJNI;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import java.awt.Desktop;
@@ -40,7 +43,8 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import swervelib.SwerveDrive;
 import swervelib.telemetry.SwerveDriveTelemetry;
-// import frc.robot.subsystems.Swerve.SwerveSubsystem;
+import frc.robot.subsystems.Swerve.SwerveSubsystem;
+import frc.robot.subsystems.Swerve.VisionSubsystem.Cameras;
 
 /**
  * Example PhotonVision class to aid in the pursuit of accurate odometry. Taken from
@@ -350,6 +354,29 @@ public class VisionSubsystem extends SubsystemBase
         }
     }
 
+ public static void setFieldOriginForAlliance(boolean isRed)
+{
+ fieldLayout.setOrigin(
+ isRed ? OriginPosition.kRedAllianceWallRightSide
+ : OriginPosition.kBlueAllianceWallRightSide
+ );
+}
+
+/**
+ * Reseeds PhotonPoseEstimator heading history after a big heading/pose jump (like alliance frame flip).
+ * Pass in a heading supplier from your drivetrain (instance-based).
+ */
+public static Command seedPhotonHeadingHistory(Supplier<Rotation2d> headingSupplier)
+{
+ return Commands.runOnce(() -> {
+ double now = Timer.getFPGATimestamp();
+ Rotation2d heading = headingSupplier.get();
+ for (Cameras cam : Cameras.values())
+ {
+ cam.poseEstimator.addHeadingData(now, heading);
+ }
+ });
+}
     /**
      * Calculates a target pose relative to an AprilTag on the field.
      *
@@ -378,6 +405,7 @@ public class VisionSubsystem extends SubsystemBase
      */
     public void updatePoseEstimation(SwerveDrive swerveDrive)
     {
+        
         if (SwerveDriveTelemetry.isSimulation && swerveDrive.getSimulationDriveTrainPose().isPresent())
         {
             /*
@@ -397,25 +425,25 @@ public class VisionSubsystem extends SubsystemBase
                 var pose = poseEst.get();
 
                 //SECTION - Start TEST 1
-                System.out.println(camera.name() + " vision pose: " + pose.estimatedPose.toPose2d()
-                        + " t=" + pose.timestampSeconds);
+                // System.out.println(camera.name() + " vision pose: " + pose.estimatedPose.toPose2d()
+                //         + " t=" + pose.timestampSeconds);
 
 
                 //SECTION - Start TEST 2
                 swerveDrive.addVisionMeasurement(pose.estimatedPose.toPose2d(),
                         pose.timestampSeconds,
                         camera.curStdDevs);
-                System.out.println("Vision fused at t=" + pose.timestampSeconds + " pose=" + pose.estimatedPose.toPose2d());
+                // System.out.println("Vision fused at t=" + pose.timestampSeconds + " pose=" + pose.estimatedPose.toPose2d());
 
-            } else {
+            }// else {
 
                 //SECTION - Start TEST 3
-                System.out.println(camera.name() + " NO vision estimate");
+                // System.out.println(camera.name() + " NO vision estimate");
 
             }
         }
 
-    }
+    //}
 
     /**
      * Generates the estimated robot pose. Returns empty if:
