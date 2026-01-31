@@ -42,7 +42,6 @@ import swervelib.SwerveDrive;
 import swervelib.telemetry.SwerveDriveTelemetry;
 // import frc.robot.subsystems.Swerve.SwerveSubsystem;
 
-
 /**
  * Example PhotonVision class to aid in the pursuit of accurate odometry. Taken from
  * https://gitlab.com/ironclad_code/ironclad-2024/-/blob/master/src/main/java/frc/robot/vision/Vision.java?ref_type=heads
@@ -303,7 +302,7 @@ public class VisionSubsystem extends SubsystemBase
      * April Tag Field Layout of the year.
      */
     public static final AprilTagFieldLayout fieldLayout                     = AprilTagFieldLayout.loadField(
-            AprilTagFields.k2025ReefscapeWelded);
+            AprilTagFields.k2026RebuiltWelded);
     /**
      * Ambiguity defined as a value between (0,1). Used in {@link VisionSubsystem#filterPose}.
      */
