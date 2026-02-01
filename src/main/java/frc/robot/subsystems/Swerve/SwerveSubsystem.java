@@ -163,25 +163,6 @@ public class SwerveSubsystem extends SubsystemBase
     }
 
 
-/**
-* Mirrors the current pose into the opposite alliance frame.
-* Call this ONLY if you also switched the AprilTagFieldLayout origin.
-*/
-public void flipPoseForAlliance(boolean isRed)
-{
-Pose2d currentPose = swerveDrive.getPose();
-
-double FieldLength = VisionSubsystem.fieldLayout.getFieldLength();
-double FieldWidth = VisionSubsystem.fieldLayout.getFieldWidth();
-
-Pose2d flipped = new Pose2d(
-FieldLength - currentPose.getX(),
-FieldWidth - currentPose.getY(),
-currentPose.getRotation().rotateBy(Rotation2d.fromDegrees(180))
-);
-
-swerveDrive.resetOdometry(flipped);
-}
 
 
   @Override

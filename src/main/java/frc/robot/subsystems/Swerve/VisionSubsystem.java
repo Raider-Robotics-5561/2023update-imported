@@ -352,31 +352,10 @@ public class VisionSubsystem extends SubsystemBase
 
             openSimCameraViews();
         }
+        fieldLayout.setOrigin(OriginPosition.kBlueAllianceWallRightSide);
     }
 
- public static void setFieldOriginForAlliance(boolean isRed)
-{
- fieldLayout.setOrigin(
- isRed ? OriginPosition.kRedAllianceWallRightSide
- : OriginPosition.kBlueAllianceWallRightSide
- );
-}
-
-/**
- * Reseeds PhotonPoseEstimator heading history after a big heading/pose jump (like alliance frame flip).
- * Pass in a heading supplier from your drivetrain (instance-based).
- */
-public static Command seedPhotonHeadingHistory(Supplier<Rotation2d> headingSupplier)
-{
- return Commands.runOnce(() -> {
- double now = Timer.getFPGATimestamp();
- Rotation2d heading = headingSupplier.get();
- for (Cameras cam : Cameras.values())
- {
- cam.poseEstimator.addHeadingData(now, heading);
- }
- });
-}
+ 
     /**
      * Calculates a target pose relative to an AprilTag on the field.
      *

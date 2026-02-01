@@ -111,28 +111,7 @@ public class RobotContainer
       }
       
       
-      public static void updateAllianceFrame()
-      {
-      
-      Optional<DriverStation.Alliance> a = DriverStation.getAlliance();
-      if (a.isEmpty() || a.equals(lastAlliance))
-    {
-    return;
-    }
-    lastAlliance = a;
-    
-    boolean isRed = (a.get() == DriverStation.Alliance.Red);
-    
-    // 1) Switch the AprilTag coordinate frame
-    VisionSubsystem.setFieldOriginForAlliance(isRed);
-    
-    // 2) Flip drivetrain pose into that same frame
-    drivebase.flipPoseForAlliance(isRed);
 
-// 3) Reseed heading history so trig-solve doesn't go empty
-//TODO - Fix
-VisionSubsystem.seedPhotonHeadingHistory(() -> drivebase.getPose().getRotation()).schedule();
-}
 
 //======================================================================================
   
@@ -161,13 +140,10 @@ VisionSubsystem.seedPhotonHeadingHistory(() -> drivebase.getPose().getRotation()
     }
 
       //~~~~~~~~~~~~~~~~~~Drive Control~~~~~~~~~~~~~~~~~~~~~~~~
-      // DriveController.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+      DriveController.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
       
       DriveController.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
 
-      DriveController.a().onTrue(Commands.runOnce(() -> {drivebase.zeroGyro();
-      }).andThen(
-      VisionSubsystem.seedPhotonHeadingHistory(() -> drivebase.getPose().getRotation())));
 
       
       //Go to pos ?
