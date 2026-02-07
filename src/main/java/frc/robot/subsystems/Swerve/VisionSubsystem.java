@@ -352,7 +352,8 @@ public class VisionSubsystem extends SubsystemBase
 
             openSimCameraViews();
         }
-        fieldLayout.setOrigin(OriginPosition.kBlueAllianceWallRightSide);
+        VisionSubsystem.fieldLayout.setOrigin(OriginPosition.kBlueAllianceWallRightSide);
+
     }
 
  
