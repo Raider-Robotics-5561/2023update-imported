@@ -7,6 +7,7 @@ import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 // import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
@@ -122,6 +123,14 @@ public class RobotContainer
  Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
 
  Command driveFieldOrientedDirectAngleKeyboard  = drivebase.driveFieldOriented(driveDirectAngleKeyboard);
+
+  // driveCommand expects DoubleSupplier arguments (functional interfaces that supply a double at runtime)
+  // Wrap the constant values in lambdas to provide DoubleSuppliers.
+ 
+ DriveController.y().onTrue(
+   drivebase.driveToPose(new Pose2d(13.829, 7.29, new Rotation2d(Units.degreesToRadians(0))))
+ );
+ 
 
 
    if (RobotBase.isSimulation())
