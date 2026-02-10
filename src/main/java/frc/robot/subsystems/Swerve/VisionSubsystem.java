@@ -58,8 +58,8 @@ public class VisionSubsystem extends SubsystemBase
     /// Camera Enum to select each camera
     public enum Cameras {
         RoboCamRight("RoboCamRight",
-                new Rotation3d(0, Units.degreesToRadians(-35), Units.degreesToRadians(225)),
-                new Translation3d(Units.inchesToMeters(11.811),
+                new Rotation3d(0, Units.degreesToRadians(-35), Units.degreesToRadians(-135)),
+                new Translation3d(Units.inchesToMeters(-11.811),
                                  -Units.inchesToMeters(9.5519),
                                   Units.inchesToMeters(9.22)),
                 VecBuilder.fill(1.2, 1.2, Units.degreesToRadians(25)), VecBuilder.fill(0.35, 0.35, Units.degreesToRadians(10))),
@@ -67,7 +67,7 @@ public class VisionSubsystem extends SubsystemBase
         RoboCamLeft("RoboCamLeft",
                 new Rotation3d(0, Units.degreesToRadians(-35), Units.degreesToRadians(135)),
                 new Translation3d(Units.inchesToMeters(-11.811),
-                                  -Units.inchesToMeters(9.5519),
+                                  Units.inchesToMeters(-9.5519),
                                   Units.inchesToMeters(9.22)),
 
                 VecBuilder.fill(1.2, 1.2, Units.degreesToRadians(25)), VecBuilder.fill(0.35, 0.35, Units.degreesToRadians(10)));
